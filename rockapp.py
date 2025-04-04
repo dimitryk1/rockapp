@@ -1,10 +1,15 @@
 from flask import Flask
 from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch_all
 from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 import random, os
 
 # Configure X-Ray recorder
-xray_recorder.configure(service='classic-rock-api')
+xray_recorder.configure(service='rock')
+plugins = ('EC2Plugin', 'ECSPlugin')
+xray_recorder.configure(plugins=plugins)
+patch_all()
+
 port = int(os.environ.get("PORT", 9003))
 app = Flask(__name__)
 
