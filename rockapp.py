@@ -1,6 +1,7 @@
-from flask import Flask, jsonify
+from flask import Flask
 from aws_xray_sdk.core import xray_recorder
 from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+import random, os
 
 # Configure X-Ray recorder
 xray_recorder.configure(service='classic-rock-api')
@@ -15,11 +16,16 @@ def classic_rock_artists():
     artists = [
         "Led Zeppelin",
         "The Rolling Stones",
-        "Pink Floyd"
+        "Pink Floyd",
+        "Guns N Roses",
+        "Metallica"
     ]
-    print("Received request, returning list of artists:")
-    print(artists)
-    return jsonify(artists)
+    minind=0
+    maxind=len(artists)-1
+    index = random.randint(minind,maxind)
+    artist=artists[index]
+    print("Received request, returning " + artist)
+    return (artist)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
